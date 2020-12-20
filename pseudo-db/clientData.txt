@@ -1,0 +1,3 @@
+Joao victor,07723475896,12345678911,rua y,21,centro,vitória da conquista
+Rafael,07798887564,11987456321,rua z,11,centro,vitória da conquista
+Cristiano,08871321589,077981538308,Rua x,21,Centro,Conquista

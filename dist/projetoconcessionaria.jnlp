@@ -18,7 +18,7 @@
     <jar href="lib\javafx.swing.jar" size="119848" download="eager" />
     <jar href="lib\javafx.web.jar" size="714741" download="eager" />
     <jar href="lib\jfoenix-8.0.10.jar" size="2710207" download="eager" />
-    <jar href="projetoconcessionaria.jar" size="954708" download="eager" />
+    <jar href="projetoconcessionaria.jar" size="962258" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="projetoconcessionaria" >
     <param name="requiredFXVersion" value="8.0+"/>

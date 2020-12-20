@@ -1,9 +1,9 @@
 package ConcessionariaPop.controller;
 
+import ConcessionariaPop.controller.utils.IODatabaseCarro;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,6 +66,8 @@ public class FXMLCadastroCarroViewController implements Initializable {
     @FXML
     private JFXTextField txtPesquisar;
     
+    private ObservableList<Carro> carro = FXCollections.observableArrayList();
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colunaMarca.setCellValueFactory(new PropertyValueFactory<Carro, String>("marca"));
@@ -76,14 +78,17 @@ public class FXMLCadastroCarroViewController implements Initializable {
         colunaCor.setCellValueFactory(new PropertyValueFactory<Carro, String>("cor"));
         colunaPreco.setCellValueFactory(new PropertyValueFactory<Carro, Double>("preco"));
         
+        carro = IODatabaseCarro.ler();
+        
         carregarCores();
         updateTableCarrosCad();
         tableViewCarrosCad.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tableViewCarrosCad.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selCarro(newValue));
     }
-        public void updateTableCarrosCad(){
-        tableViewCarrosCad.setItems(getCarros());
-        }
+    
+    public void updateTableCarrosCad(){
+        tableViewCarrosCad.setItems(carro);
+    }
     //método para colocar as cores no combo box
     public void carregarCores(){
         cores = FXCollections.observableArrayList("Preto","Cinza","Branco","Vermelho");
@@ -116,11 +121,13 @@ public class FXMLCadastroCarroViewController implements Initializable {
             //adiciona um carro semi novo caso o campo seja igual a "KMs Rodados"
             if(lblEstoque_km.getText().equals("KMs Rodados")){
                 CarroSemiNovo carro = new CarroSemiNovo(ano, txtModelo.getText(), txtMarca.getText(), preco, km_estoque, comboBoxCor.getValue());
-                tableViewCarrosCad.getItems().add(carro);
+                this.carro.add(carro);
+                IODatabaseCarro.adicionar(carro);
             //adiciona um carro novo caso o campo seja igual a "Estoque"
             }else{
                 CarroNovo carro = new CarroNovo(ano, txtModelo.getText(), txtMarca.getText(), preco, km_estoque, comboBoxCor.getValue());
-                tableViewCarrosCad.getItems().add(carro);
+                this.carro.add(carro);
+                IODatabaseCarro.adicionar(carro);
             }
             //todas as linhas abaixo servem para resetar os campos
             txtModelo.setText("");
@@ -129,28 +136,25 @@ public class FXMLCadastroCarroViewController implements Initializable {
             txtPreco.setText("");
             txtKm_Estoque.setText("");
             comboBoxCor.setValue("");
+            
+            updateTableCarrosCad();
         }
         //exceção para caso os campos ano, preço e kilometros/estoque não possuam somente números
         catch(NumberFormatException e){            
         }
     }
 
-    public ObservableList<Carro> getCarros(){
-        ObservableList<Carro> carro = FXCollections.observableArrayList();
-        carro.add(new CarroSemiNovo(21, "Celta", "Chevrolet", 2000.0, 10023 , "1"){});
-        carro.add(new CarroNovo(21, "Celtaaa", "Chevrolet", 2000.0, 1 , "1"){});
-        return carro;
-    }
     
     @FXML
     public void delCarro(){
-        ObservableList<Carro> selectedRows, allCarros;
-        allCarros = tableViewCarrosCad.getItems();
+        ObservableList<Carro> selectedRows;
         selectedRows = tableViewCarrosCad.getSelectionModel().getSelectedItems();
         
         for(Carro car: selectedRows){
-            allCarros.remove(car);
+            carro.remove(car);
         } 
+        
+        IODatabaseCarro.remover(carro);
     }
     
     public void selCarro(Carro carro){
@@ -174,7 +178,7 @@ public class FXMLCadastroCarroViewController implements Initializable {
         String modelo = txtPesquisar.getText();
         boolean isFind = false;     // gambiarra ou preguiça?
          
-        for (Carro car: getCarros())
+        for (Carro car: carro)
             if (car.getModelo().equals(modelo)){
                 isFind = true;
                 tableViewCarrosCad.setItems(FXCollections.observableArrayList(car));
