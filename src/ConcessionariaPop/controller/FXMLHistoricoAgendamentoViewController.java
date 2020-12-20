@@ -11,9 +11,11 @@ import ConcessionariaPop.model.Cliente;
 import ConcessionariaPop.model.Compra;
 import ConcessionariaPop.model.Endereco;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -48,12 +50,14 @@ public class FXMLHistoricoAgendamentoViewController implements Initializable {
     private ObservableList<Compra> obsCompras;
 
     private void carregarComprasTableView(){
-        //não sei puxar de dentro de outra classe ;-;
-        colummCpfHistorico.setCellValueFactory(new PropertyValueFactory<>("cliente/"));
-        colummModeloHistorico.setCellValueFactory(new PropertyValueFactory<>("veiculo/modelo"));
-        colummMarcaHistorico.setCellValueFactory(new PropertyValueFactory<>("veiculo/marca"));
-        colummAnoHistorico.setCellValueFactory(new PropertyValueFactory<>("veiculo/ano"));
-        //colummDataHistorico.setCellValueFactory(new PropertyValueFactory<>("qntEstoque"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        colummCpfHistorico.setCellValueFactory((param) -> new SimpleStringProperty(param.getValue().getCliente().getCpf()));
+        
+        colummModeloHistorico.setCellValueFactory((param) -> new SimpleStringProperty(param.getValue().getVeiculo().getModelo()));
+        colummMarcaHistorico.setCellValueFactory((param) -> new SimpleStringProperty(param.getValue().getVeiculo().getMarca()));
+        colummAnoHistorico.setCellValueFactory((param) -> new SimpleStringProperty(String.valueOf(param.getValue().getVeiculo().getAno())));
+        colummDataHistorico.setCellValueFactory((param) -> new SimpleStringProperty(sdf.format(param.getValue().getData())));
         colummFormaPagamentoHistorico.setCellValueFactory(new PropertyValueFactory<>("formaPagamento"));
         
         obsCompras = FXCollections.observableArrayList(compras);

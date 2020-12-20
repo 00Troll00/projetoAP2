@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #bb2e3b;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ConcessionariaPop.controller.FXMLHistoricoAgendamentoViewController">
+   <children>
+      <TableView fx:id="tableViewHistorico" layoutX="8.0" layoutY="75.0" prefHeight="316.0" prefWidth="580.0">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+         <columns>
+            <TableColumn fx:id="colummCpfHistorico" prefWidth="75.0" text="CPF do Cliente" />
+            <TableColumn fx:id="colummModeloHistorico" prefWidth="75.0" text="Modelo" />
+            <TableColumn fx:id="colummMarcaHistorico" prefWidth="75.0" text="Marca" />
+            <TableColumn fx:id="colummAnoHistorico" prefWidth="75.0" text="Ano" />
+            <TableColumn fx:id="colummDataHistorico" prefWidth="75.0" text="Data" />
+            <TableColumn fx:id="colummFormaPagamentoHistorico" prefWidth="75.0" text="Forma de Pagamento" />
+         </columns>
+      </TableView>
+      <Label layoutX="14.0" layoutY="25.0" prefHeight="36.0" prefWidth="191.0" text="Histórico de Agendamento" textFill="WHITE">
+         <font>
+            <Font name="System Italic" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

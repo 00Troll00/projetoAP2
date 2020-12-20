@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -20,7 +21,7 @@
                   <Image url="@../images/xferrari_458_italia_carros_mais_bonitos.jpg.pagespeed.ic.vtRQ8AfgJq.jpg" />
                </image>
             </ImageView>
-            <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="33.0" layoutY="188.0" opacity="0.24" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="33.0" layoutY="188.0" onMouseClicked="#searchCarro" opacity="0.24" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/lupa.png" />
                </image>
@@ -50,10 +51,19 @@
                   <Font name="System Italic" size="16.0" />
                </font>
             </Label>
-            <TableView layoutX="8.0" layoutY="236.0" prefHeight="283.0" prefWidth="742.0" />
-            <JFXComboBox fx:id="comboBoxCor" layoutX="194.0" layoutY="124.0" prefHeight="28.0" prefWidth="238.0" />
-            <JFXTextField fx:id="txtModelo" layoutX="33.0" layoutY="67.0" prefHeight="26.0" prefWidth="222.0" promptText="Digite aqui..." />
-            <JFXTextField fx:id="txtKm_Estoque" layoutX="552.0" layoutY="67.0" prefHeight="26.0" prefWidth="143.0" promptText="Digite aqui..." />
+            <TableView fx:id="tableViewCarrosCad" layoutX="8.0" layoutY="236.0" prefHeight="283.0" prefWidth="742.0">
+               <columns>
+                  <TableColumn fx:id="colunaModelo" prefWidth="139.0" text="Modelo" />
+                  <TableColumn fx:id="colunaMarca" prefWidth="127.0" text="Marca" />
+                  <TableColumn fx:id="colunaAno" prefWidth="88.0" text="Ano" />
+                  <TableColumn fx:id="colunaKm" prefWidth="103.0" text="KM Rodados" />
+                  <TableColumn fx:id="colunaEstoque" prefWidth="81.0" text="Estoque" />
+                  <TableColumn fx:id="colunaCor" prefWidth="89.0" text="Cor" />
+                  <TableColumn fx:id="colunaPreco" prefWidth="114.0" text="Preço" />
+               </columns></TableView>
+            <JFXComboBox fx:id="comboBoxCor" layoutX="194.0" layoutY="124.0" prefHeight="28.0" prefWidth="238.0" styleClass="jfxTextWhite" stylesheets="@../ConcessionariaPopMain/style.css" />
+            <JFXTextField fx:id="txtModelo" layoutX="33.0" layoutY="67.0" prefHeight="26.0" prefWidth="222.0" promptText="Digite aqui..." styleClass="jfxTextWhite" stylesheets="@../ConcessionariaPopMain/style.css" />
+            <JFXTextField fx:id="txtKm_Estoque" layoutX="552.0" layoutY="67.0" prefHeight="26.0" prefWidth="143.0" promptText="Digite aqui..." styleClass="jfxTextWhite" stylesheets="@../ConcessionariaPopMain/style.css" />
             <JFXButton layoutX="729.0" onMouseClicked="#handleCloseWindow" prefHeight="19.0" prefWidth="14.0" styleClass="menuitemandclose" text="X" textFill="#bfbfbf">
                <font>
                   <Font name="Verdana Bold" size="14.0" />
@@ -68,7 +78,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton layoutX="576.0" layoutY="180.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="33.0" text=" ">
+            <JFXButton layoutX="576.0" layoutY="180.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#delCarro" prefWidth="33.0" text=" ">
                <graphic>
                   <ImageView fitHeight="29.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="-4.5">
                      <image>
@@ -86,26 +96,27 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXTextField layoutX="72.0" layoutY="190.0" prefHeight="25.0" prefWidth="222.0" promptText="Digite aqui..." />
+            <JFXTextField fx:id="txtPesquisar" layoutX="72.0" layoutY="190.0" prefHeight="25.0" prefWidth="222.0" promptText="Digite aqui..." styleClass="jfxTextWhite" stylesheets="@../ConcessionariaPopMain/style.css" />
             <JFXToggleButton fx:id="tBtnNovo" layoutX="22.0" layoutY="114.0" onAction="#mudarKm_Estoque" prefHeight="58.0" prefWidth="43.0" text="." textFill="#cd0000" />
-            <JFXTextField fx:id="txtAno" layoutX="453.0" layoutY="67.0" prefHeight="26.0" prefWidth="78.0" promptText="Digite aqui..." />
+            <JFXTextField fx:id="txtAno" layoutX="453.0" layoutY="67.0" prefHeight="26.0" prefWidth="78.0" promptText="Digite aqui..." styleClass="jfxTextWhite" stylesheets="@../ConcessionariaPopMain/style.css" />
             <Label layoutX="453.0" layoutY="42.0" text="Ano" textFill="WHITE">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="txtMarca" layoutX="276.0" layoutY="67.0" prefHeight="26.0" prefWidth="164.0" promptText="Digite aqui..." />
+            <JFXTextField fx:id="txtMarca" layoutX="276.0" layoutY="67.0" prefHeight="26.0" prefWidth="164.0" promptText="Digite aqui..." styleClass="jfxTextWhite" stylesheets="@../ConcessionariaPopMain/style.css" />
             <Label layoutX="272.0" layoutY="42.0" text="Marca" textFill="WHITE">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="txtPreco" layoutX="455.0" layoutY="125.0" prefHeight="26.0" prefWidth="238.0" promptText="Digite aqui..." />
+            <JFXTextField fx:id="txtPreco" layoutX="455.0" layoutY="125.0" prefHeight="26.0" prefWidth="238.0" promptText="Digite aqui..." styleClass="jfxTextWhite" stylesheets="@../ConcessionariaPopMain/style.css" />
             <Label layoutX="453.0" layoutY="101.0" text="Preço" textFill="WHITE">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>
             </Label>
+            <Label fx:id="lblErro" layoutX="319.0" layoutY="188.0" prefHeight="28.0" prefWidth="211.0" textFill="WHITE" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

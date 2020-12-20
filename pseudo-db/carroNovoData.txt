@@ -1,0 +1,2 @@
+21,Celta,Chevrolet,2000.0,1,1200
+7,Corsa,Chevrolet,30000.0,2000,Vermelho
