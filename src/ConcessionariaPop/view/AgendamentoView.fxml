@@ -57,29 +57,11 @@
                   <Font name="Verdana Bold" size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnAdd" layoutX="510.0" layoutY="118.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#add" prefWidth="34.0" text=" ">
+            <JFXButton fx:id="btnAdd" layoutX="577.0" layoutY="116.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#add" prefWidth="34.0" text=" ">
                <graphic>
                   <ImageView fitHeight="29.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="-3.0">
                      <image>
                         <Image url="@../images/inserticon.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton layoutX="544.0" layoutY="119.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="33.0" text=" ">
-               <graphic>
-                  <ImageView fitHeight="29.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" translateX="-4.5">
-                     <image>
-                        <Image url="@../images/removeicon.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton layoutX="577.0" layoutY="118.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="34.0" text=" ">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" translateX="-3.0">
-                     <image>
-                        <Image url="@../images/saveicon.png" />
                      </image>
                   </ImageView>
                </graphic>
