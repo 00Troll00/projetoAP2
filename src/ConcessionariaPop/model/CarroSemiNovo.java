@@ -7,7 +7,11 @@ public class CarroSemiNovo extends Carro{
         super(ano,modelo, marca, preco, cor);
         this.kmRodado=kmRodado;
     }
-    
+   
+    @Override
+    public String imprimir(){
+        return super.imprimir() + "KMs Rodados: " + kmRodado + "\nStatus do Carro: Semi Novo\n";
+    }
     
    public void setKmRodado(int kmRodado){
         this.kmRodado=kmRodado;
@@ -15,6 +19,5 @@ public class CarroSemiNovo extends Carro{
 
     public int getKmRodado() {
         return kmRodado;
-    }
-    
+    }    
 }

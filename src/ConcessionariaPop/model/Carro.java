@@ -1,20 +1,28 @@
 package ConcessionariaPop.model;
 
-public abstract class Carro {
+public abstract class Carro implements Imprimir{
 	protected int ano;
 	protected String modelo;
 	protected String marca;
 	protected double preco;
         protected String cor;
 
-	public Carro(int ano, String modelo, String marca, double preco, String cor){
-            this.modelo=modelo;
-            this.marca=marca;
-            this.preco=preco;
-            this.ano=ano;
-            this.cor=cor;
-	}
-
+    public Carro(int ano, String modelo, String marca, double preco, String cor){
+        this.modelo=modelo;
+        this.marca=marca;
+        this.preco=preco;
+        this.ano=ano;
+        this.cor=cor;
+    }
+        
+    @Override
+    public String imprimir(){
+        return "Modelo do Carro: " + this.modelo +
+                "\nMarca do Carro: " + this.marca +
+                "\nAno do Carro: " + this.ano + "\n";
+    }
+    
+    
     public int getAno() {
         return ano;
     }
@@ -54,6 +62,8 @@ public abstract class Carro {
     public void setCor(String cor) {
         this.cor = cor;
     }
+
+    public void atualizarEstoque(){
         
-    
+    }
 }

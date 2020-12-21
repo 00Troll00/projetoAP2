@@ -1,26 +1,26 @@
 package ConcessionariaPop.model;
-public class Cliente{
-private String nome;
-private String cpf;
-private String telefone;
-private Endereco endereco;
+
+public class Cliente implements Imprimir{
+    private String nome;
+    private String cpf;
+    private String telefone;
+    private Endereco endereco;
 
 
 
 public Cliente(){}
 
-public Cliente(String nome, String cpf, String telefone, Endereco endereco){
-    this.nome=nome;
-    this.cpf=cpf;
-    this.telefone=telefone;
-    this.endereco=endereco;
-}
+    public Cliente(String nome, String cpf, String telefone, Endereco endereco){
+        this.nome=nome;
+        this.cpf=cpf;
+        this.telefone=telefone;
+        this.endereco=endereco;
+    }
 
-
-public String imprimir(){
-    String x= " Nome: " + getNome() + "/n CPF : " + getCpf() + "/n Telefone: " + getTelefone() + "/n Endereco: " + getEndereco()+"";
-    return x;
-}
+    
+    public String imprimir(){
+        return "Nome do Cliente: " + this.nome + "\nCPF do Cliente: " + this.cpf + "\n";
+    }
 
     public String getNome() {
         return nome;
