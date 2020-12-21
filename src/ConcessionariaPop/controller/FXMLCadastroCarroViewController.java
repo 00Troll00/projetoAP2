@@ -179,14 +179,15 @@ public class FXMLCadastroCarroViewController implements Initializable {
         boolean isFind = false;     // gambiarra ou preguiça?
          
         for (Carro car: carro)
-            if (car.getModelo().equals(modelo)){
+            if (car.getModelo().equalsIgnoreCase(modelo)){
                 isFind = true;
                 tableViewCarrosCad.setItems(FXCollections.observableArrayList(car));
             }
         
         if (!isFind){
             updateTableCarrosCad();
-            lblErro.setText("Cliente inexistente.");
+            if(!txtPesquisar.getText().equals(""))
+                lblErro.setText("Carro inexistente.");
         }
     }
     

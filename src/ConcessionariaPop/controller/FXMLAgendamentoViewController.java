@@ -1,11 +1,13 @@
 package ConcessionariaPop.controller;
 
+import static ConcessionariaPop.controller.utils.Alerts.showInformation;
 import ConcessionariaPop.model.Carro;
 import ConcessionariaPop.model.CarroNovo;
 import ConcessionariaPop.model.CarroSemiNovo;
 import ConcessionariaPop.model.Cliente;
 import ConcessionariaPop.model.Compra;
 import ConcessionariaPop.model.Endereco;
+import ConcessionariaPop.model.exceptions.ObjetoInexistenteException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -46,9 +48,13 @@ public class FXMLAgendamentoViewController implements Initializable{
     @FXML
     private Label lblCampoVazio;
     @FXML
+    private Label lblErro;
+    @FXML
     private JFXTextField txtCPF;
     @FXML
     private JFXTextField txtCarro;
+    @FXML
+    private JFXTextField txtPesquisar;
     @FXML
     private JFXComboBox<String> cbFormaPagamento;
     @FXML
@@ -75,26 +81,10 @@ public class FXMLAgendamentoViewController implements Initializable{
     private ObservableList<Carro> obsCarros;
     private ObservableList<String> obsFormasPagamento;
     private Carro carroSelecionado;
-    //declarações da tela de historico
-    @FXML
-    private TableView<Compra> tableViewHistorico;
-    @FXML
-    private TableColumn<Compra, String> colummCpfHistorico;
-    @FXML
-    private TableColumn<Compra, String> colummModeloHistorico;
-    @FXML
-    private TableColumn<Compra, String> colummMarcaHistorico;
-    @FXML
-    private TableColumn<Compra, String> colummAnoHistorico;
-    @FXML
-    private TableColumn<Compra, String> colummFormaPagamentoHistorico;
-    @FXML
-    private TableColumn<Compra, String> colummDataHistorico;
-    
-    private ObservableList<Compra> obsCompras;
+
  
     @FXML
-    private void handleCloseWindow(MouseEvent event) {
+    private void handleCloseWindow(MouseEvent event) {//fechar o programa
         System.exit(0);
     }
 
@@ -105,7 +95,7 @@ public class FXMLAgendamentoViewController implements Initializable{
         colummPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         colummEstoque.setCellValueFactory(new PropertyValueFactory<>("qntEstoque"));
         colummKMsRodados.setCellValueFactory(new PropertyValueFactory<>("kmRodado"));
-        
+        //criando varios carros para compor a table view
         Carro c1 = new CarroNovo(2019, "Modelo X", "Marca X", 50000, 2, "Vermelho");
         Carro c2 = new CarroNovo(2019, "Modelo Z", "Marca X", 50000, 2, "Vermelho");
         Carro c3 = new CarroSemiNovo(2019, "Modelo C", "Marca X", 50000, 2000, "Vermelho");
@@ -131,7 +121,7 @@ public class FXMLAgendamentoViewController implements Initializable{
         
     }
     
-    private Cliente buscaClienteCpf() {
+    private Cliente buscaClienteCpf() {//verifica se o cpf digitado existe
         for(Cliente c : clientes){
             if (c.getCpf().equals(txtCPF.getText()))
                 return c;
@@ -141,12 +131,40 @@ public class FXMLAgendamentoViewController implements Initializable{
 
     @FXML
     private void add(ActionEvent event) {
-        Cliente cliente = buscaClienteCpf();
-        Date data = new Date();
-        //carroSelecionado
-        //System.out.println(carroSelecionado.getModelo());
-        
-        compras.add(new Compra(carroSelecionado, cliente, data, cbFormaPagamento.getValue()));
+        if(buscaClienteCpf()!=null){
+            lblErro.setVisible(false);
+            Carro car=null;
+            for(Carro carro : obsCarros){
+                if(carro.equals(carroSelecionado)){
+                    if(carro instanceof CarroNovo){
+                        carro.atualizarEstoque();
+                    }
+                    car=carro;   
+                }
+            }
+               
+            Cliente cliente = buscaClienteCpf();
+            Date data = new Date();
+            compras.add(new Compra(car, cliente, data, cbFormaPagamento.getValue()));
+            if(car instanceof CarroSemiNovo)
+               obsCarros.remove(car);
+            if(car instanceof CarroNovo){
+                obsCarros.remove(car);
+                obsCarros.add(car);
+            }
+            //else
+                //car.atualizarEstoque();
+            //carros.add(car);
+            txtCPF.setText("");
+            txtCarro.setText("");
+            cbFormaPagamento.setValue("");          
+          
+            cbFormaPagamento.setItems(obsFormasPagamento);
+            updateTableCarros();
+            showInformation(compras.get(compras.size()-1).imprimir());
+        }
+        else
+            lblErro.setVisible(true);
     }
 
     @Override
@@ -156,17 +174,39 @@ public class FXMLAgendamentoViewController implements Initializable{
         clientes.add(new Cliente("Alan", "122", "515151", end));
         tableViewCarro.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selecionarTableCarro(newValue));
+        tableViewCarro.getSortOrder().add(colummModelo);
     }  
     
     public void selecionarTableCarro(Carro carro){
         txtCarro.setText(carro.getModelo() + ", " + carro.getMarca() + ", " + carro.getAno());
         carroSelecionado=carro;
     }
-    //métodos da tela de historico
+    
     @FXML
-    public void abrirHistorico() throws IOException{
-        //carregarComprasTableView();
+    private void searchModelo(MouseEvent event) {
+        //lblErro.setText("");
+        String modelo = txtPesquisar.getText();
+        boolean isFind = false;     // gambiarra ou preguiça?
+         
+        for (Carro carro: obsCarros)
+            if (carro.getModelo().equalsIgnoreCase(modelo)){
+                isFind = true;
+                tableViewCarro.setItems(FXCollections.observableArrayList(carro));
+            }
         
+        if (!isFind){
+            updateTableCarros();
+            //lblErro.setText("Cliente inexistente.");
+        }
+    }
+    
+    public void updateTableCarros(){   // Atualizar todos os clientes na tableView
+        tableViewCarro.setItems(obsCarros);
+    }
+    
+    //método para abrir a tela de historico
+    @FXML
+    public void abrirHistorico() throws IOException{        
             Parent root = FXMLLoader.load(getClass().getResource("/ConcessionariaPop/view/HistoricoAgendamentoView.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(root);
